@@ -10,9 +10,12 @@ from bibliotecas import enviaEmail
 from config import transmissores, destinatarios, banco
 
 
-hoje = datetime.datetime.combine(datetime.datetime.today(), datetime.time.min)
+hoje = datetime.datetime.combine(datetime.datetime.today() + datetime.timedelta(days=1), datetime.time.min)
 ontem = hoje - datetime.timedelta(days=1)
 ontem_str =  ontem.strftime("%Y-%m-%d")
+
+
+
 hoje_epoch = hoje.strftime("%s")
 ontem_epoch = ontem.strftime("%s")
 hoje_n_epoch = int(hoje.strftime("%s"))
@@ -58,6 +61,8 @@ for transmissor in transmissores:
           d[key] = []
        d[key].append(value)
 
+    print(d)
+
     processado = {}
     for x in range(ontem_n_epoch, hoje_n_epoch, 60):
         data = datetime.datetime.fromtimestamp(x).strftime("%Y-%m-%d %H:%M")
@@ -65,6 +70,8 @@ for transmissor in transmissores:
             processado[data] = int(sum(d[data]) / len(d[data]))
         else:
             processado[data] = "Sem dados"
+
+
 
     consolidado = {'ok': 0, 'potencia': 0, 'semdados': 0}
     for item in processado:
@@ -91,6 +98,6 @@ for transmissor in transmissores:
     conn.close()
 
 assunto = "Transmissores: consolidado do dia %s" % ontem_str
-enviaEmail(assunto, texto_email, destinatarios)
+# enviaEmail(assunto, texto_email, destinatarios)
 
 server.close()

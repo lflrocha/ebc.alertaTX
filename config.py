@@ -7,12 +7,12 @@ destinatarios = [
     "sergio.lima@ebc.com.br",
     "regio.sousa@ebc.com.br",
 
-    # "wagner.bastos@ebc.com.br",
-    # "israel.silva@ebc.com.br",
-    # "renan.goncalves@ebc.com.br",
-    # "jhefferson.silva@ebc.com.br",
-    # "pedro.boszczovski@ebc.com.br",
-    # "emerson.weirich@ebc.com.br",
+    "wagner.bastos@ebc.com.br",
+    "israel.silva@ebc.com.br",
+    "renan.goncalves@ebc.com.br",
+    "jhefferson.silva@ebc.com.br",
+    "pedro.boszczovski@ebc.com.br",
+    "emerson.weirich@ebc.com.br",
 
 ]
 

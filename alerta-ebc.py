@@ -22,8 +22,6 @@ async def teste(mensagem):
         await bot.send_message(text=mensagem, chat_id=CHAT)
 
 
-
-
 agora = datetime.datetime.now()
 agora_str = agora.strftime("%Y-%m-%d %H:%M:%S")
 
@@ -58,6 +56,17 @@ for transmissor in transmissores:
     linhas = curs.fetchall()
 
     linhas.reverse()
+
+    for rec in linhas:
+        data = datetime.datetime.fromtimestamp(rec[1])
+        data_str = data.strftime("%Y-%m-%d %H:%M:%S")
+        if int(rec[2]) <= limite:
+            assunto = "Alerta Transmissores - Potência abaixo do limite - %s" % nome
+            mensagem = "A leitura da potência foi %s e o limite é %s" % (str(int(rec[2])), str(limite))
+            enviaEmail(assunto, mensagem, destinatarios)
+            asyncio.run(teste(assunto + ' ' + mensagem))
+            break
+
     if len(linhas) < 6:
         assunto = "Alerta Transmissores - Leitura incompleta - %s" % nome
         mensagem = "Foram identificadas falhas no recebimento de informações em %s\n" % data_inicial_str
@@ -67,15 +76,5 @@ for transmissor in transmissores:
             data_str = data.strftime("%Y-%m-%d %H:%M:%S")
             # mensagem = mensagem + data_str + ": " + str(int(rec[2])) + '\n'
         # enviaEmail(assunto, mensagem, destinatarios)
-    else:
-        for rec in linhas:
-            data = datetime.datetime.fromtimestamp(rec[1])
-            data_str = data.strftime("%Y-%m-%d %H:%M:%S")
-            if int(rec[2]) <= limite:
-                assunto = "Alerta Transmissores - Potência abaixo do limite - %s" % nome
-                mensagem = "A leitura da potência foi %s e o limite é %s" % (str(int(rec[2])), str(limite))
-                enviaEmail(assunto, mensagem, destinatarios)
-                asyncio.run(teste(assunto + ' ' + mensagem))
 
-                break
     conn.close()
